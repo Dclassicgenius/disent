@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,8 +12,12 @@ export const metadata: Metadata = {
 
 function TopNavbar() {
   return (
-    <div className="bg-slate-800 border-b">
-      <h1 className="text-4xl font-bod text-center p-4">World Countries</h1>
+    <div className="bg-slate-900 border-b">
+      <Link href="/">
+        <div className="text-4xl font-bold text-center p-4">
+          World Countries
+        </div>
+      </Link>
     </div>
   );
 }

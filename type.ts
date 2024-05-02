@@ -1,17 +1,24 @@
-type CountryAPIResponse = {
+export type SimpleCountryAPIResponse = {
   name: {
     common: string;
     official: string;
   };
+  cca3: string;
+  region: string;
+  population: number;
+  flags: {
+    svg: string;
+    alt: string;
+  };
+  capital: string[];
+};
+
+export interface CountryAPIResponse extends SimpleCountryAPIResponse {
   tld: string[];
   cca2: string;
-  cca3: string;
-  capital: string[];
-  region: string;
   subregion: string;
   languages: { [key: string]: string };
   latlng: [number, number];
-  population: number;
   independent: boolean;
   unMember: boolean;
   currencies: {
@@ -24,11 +31,12 @@ type CountryAPIResponse = {
     root: string;
     suffixes: string[];
   };
-  borders: string[];
   area: number;
-  flags: {
-    png: string;
+  timezones: string[];
+  continents: string[];
+  landlocked: boolean;
+  startOfWeek: string;
+  coatOfArms: {
     svg: string;
   };
-  timezones: string[];
-};
+}

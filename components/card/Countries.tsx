@@ -1,41 +1,48 @@
+import { SimpleCountryAPIResponse } from "@/type";
 import Image from "next/image";
 import Link from "next/link";
+import { TableSection } from "../Table/TableSection";
 
-function CountryCard() {
+function CountryCard({ country }: { country: SimpleCountryAPIResponse }) {
+  const { name, capital, region, population, flags, cca3 } = country;
+
+  const data = [
+    { label: "Name", value: name.common },
+    { label: "Capital", value: capital.map((c) => c).join(", ") },
+    { label: "Region", value: region },
+    { label: "Population", value: population.toLocaleString() },
+  ];
   return (
     <div className="bg-slate-800 p-4 rounded-lg space-y-3 hover:transform hover:scale-105 hover:transition hover:duration-300">
-      <Link href="#" className="space-y-3 text-lg">
+      <Link
+        href={`/country/${cca3}/${encodeURIComponent(name.common)}`}
+        className="space-y-3 text-lg"
+      >
         <div>
           <Image
-            src="https://flagcdn.com/de.svg"
-            alt="image"
+            src={flags.svg}
+            alt={flags.alt}
             width={200}
             height={200}
-            className="rounded-lg"
+            className="rounded-lg w-full "
           />
         </div>
-        <p className="font-semibold">
-          name: <span className="font-bold">Germany</span>
-        </p>
-        <p className="font-semibold">
-          Capital: <span className="font-bold">London</span>
-        </p>
-        <p className="font-semibold">
-          Region(s): <span className="font-bold">Europe</span>
-        </p>
-        <p className="font-semibold">
-          Population: <span className="font-bold">10000000</span>
-        </p>
+
+        <TableSection title="" data={data} />
       </Link>
     </div>
   );
 }
 
-const Countries = () => {
+const Countries = ({
+  countries,
+}: {
+  countries: SimpleCountryAPIResponse[];
+}) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-      {[...Array(10)].map((_, i) => (
-        <CountryCard key={i} />
+      {countries.map((country) => (
+        <CountryCard key={country.cca3} country={country} />
       ))}
     </div>
   );
