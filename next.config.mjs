@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [{ hostname: "flagcdn.com" }],
+    remotePatterns: [
+      { hostname: "flagcdn.com" },
+      { hostname: "mainfacts.com" },
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,
