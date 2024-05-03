@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { TableSection } from "../Table/TableSection";
 import { CountryAPIResponse } from "@/type";
+import { decimalToDMS } from "@/libs/utils";
 
 const CountryDetails = ({ details }: { details: CountryAPIResponse }) => {
   const {
@@ -40,14 +41,19 @@ const CountryDetails = ({ details }: { details: CountryAPIResponse }) => {
         currencies[currencyKeys[0]].symbol
       })`
     : "";
+
+  const latitude = latlng ? decimalToDMS(latlng[0], true) : "";
+  const longitude = latlng ? decimalToDMS(latlng[1], false) : "";
+
+  const coordinates = latlng ? `(${latitude}, ${longitude})` : "";
   const GeographicDetailsData = [
     { label: "Capital", value: capital?.map((c) => c).join(", ") },
     { label: "Continent(s)", value: continents?.map((c) => c).join(", ") },
     { label: "Region", value: region },
     { label: "Subregion", value: subregion },
-    { label: "Landlocked", value: landlocked },
+    { label: "Landlocked", value: landlocked ? "✅" : "❌" },
     { label: "Area", value: `${area?.toLocaleString()} km²` },
-    { label: "Coordinates", value: `[${latlng?.map((l) => l).join(", ")}]` },
+    { label: "Coordinates", value: coordinates },
   ];
 
   const DemographicAndPoliticalData = [
@@ -58,20 +64,20 @@ const CountryDetails = ({ details }: { details: CountryAPIResponse }) => {
     },
     { label: "Timezones", value: timezones?.map((t) => t).join(", ") },
     { label: "Languages", value: languageNames ?? "" },
-    { label: "UN Member", value: unMember },
+    { label: "UN Member", value: unMember ? "✅" : "❌" },
   ];
 
   const AdditionalInformationData = [
     { label: "Top-level Domain", value: tld?.map((t) => t).join(", ") },
     { label: "Calling Code", value: idd?.root },
-    { label: "Independent", value: independent },
+    { label: "Independent", value: independent ? "✅" : "❌" },
     { label: "Start of week", value: startOfWeek },
     { label: "alpha2Code", value: cca2 },
     { label: "alpha3Code", value: cca3 },
   ];
 
   return (
-    <div className="bg-slate-800 p-4 rounded-lg flex flex-col gap-4 min-h-screen max-w-3xl p-6 mx-auto">
+    <div className="bg-slate-800 p-6 rounded-lg flex flex-col gap-4 min-h-screen max-w-3xl mx-auto min-w-0">
       <div className="flex justify-between items-center ">
         <p className="text-3xl font-bold">{name?.common}</p>
         <div>
@@ -85,7 +91,7 @@ const CountryDetails = ({ details }: { details: CountryAPIResponse }) => {
         </div>
       </div>
       <div className="flex items-center gap-4 flex-wrap">
-        <div className="flex items-center">
+        <div className="flex items-center flex-shrink">
           <Image
             src={flags?.svg}
             alt={flags?.alt}
@@ -94,7 +100,7 @@ const CountryDetails = ({ details }: { details: CountryAPIResponse }) => {
             className="rounded-lg w-48"
           />
         </div>
-        <div>
+        <div className="bg-slate-900 py-2 px-4 rounded-lg  text-xl space-y-2">
           <p className="font-semibold">
             Common Name: <span className="font-bold">{name.common}</span>
           </p>
