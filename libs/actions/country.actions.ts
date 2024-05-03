@@ -29,7 +29,7 @@ export async function getCountryByCode(
 
     return res.json() as unknown as CountryAPIResponse[];
   } catch (error) {
-    console.error(`Error fetching country with code ${code}:`, error);
+    console.error(`Error fetching country details with code ${code}:`, error);
     return [];
   }
 }
