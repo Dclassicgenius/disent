@@ -1,10 +1,14 @@
 import { CountryAPIResponse, SimpleCountryAPIResponse } from "@/type";
 
-export async function getCountries(): Promise<SimpleCountryAPIResponse[] | []> {
+export async function getCountries(
+  query: string = ""
+): Promise<SimpleCountryAPIResponse[] | []> {
   try {
-    const res = await fetch(
-      "https://restcountries.com/v3.1/all?fields=name,flags,cca3,region,population,capital"
-    );
+    const endpoint = query
+      ? `https://restcountries.com/v3.1/name/${query}?fields=name,flags,cca3,region,population,capital`
+      : "https://restcountries.com/v3.1/all?fields=name,flags,cca3,region,population,capital";
+
+    const res = await fetch(endpoint);
 
     if (!res.ok) {
       throw new Error("Failed to fetch countries");

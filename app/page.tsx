@@ -1,16 +1,23 @@
 import Countries from "@/components/card/Countries";
 import { CountriesSkeleton } from "@/components/loader/CountryLoader";
+import SearchBar from "@/components/search/SearchBar";
 import { getCountries } from "@/libs/actions/country.actions";
 import { Suspense } from "react";
 
-export default async function Home() {
-  const countries = await getCountries();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { query?: string };
+}) {
+  const query = searchParams?.query || "";
+  const countries = await getCountries(query);
   if (countries.length === 0) {
     return <div>Failed to fetch countries</div>;
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12 gap-4">
+    <main className=" px-12 pt-3">
       <Suspense fallback={<CountriesSkeleton />}>
+        <SearchBar />
         <Countries countries={countries} />
       </Suspense>
     </main>
