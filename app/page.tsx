@@ -1,5 +1,6 @@
 import Countries from "@/components/card/Countries";
 import { CountriesSkeleton } from "@/components/loader/CountryLoader";
+import ScrollToTop from "@/components/scroll/ScrollToTop";
 import SearchBar from "@/components/search/SearchBar";
 import { getCountries } from "@/libs/actions/country.actions";
 import { Suspense } from "react";
@@ -20,6 +21,7 @@ export default async function Home({
         <SearchBar />
         <Countries countries={countries} />
       </Suspense>
+      <ScrollToTop />
     </main>
   );
 }
